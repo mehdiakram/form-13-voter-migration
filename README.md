@@ -129,15 +129,15 @@ Pull Request স্বাগত! যেকোনো বাগ বা উন্�
 
 ## 🙏 ক্রেডিট
 
-এই প্রজেক্টটি তৈরি করা হয়েছে **[RoyalTechBD](https://royaltechbd.com/)** এর পক্ষ থেকে।
+এই প্রজেক্টটি তৈরি করা হয়েছে **[Royal Technologies](https://royaltechbd.com/)** এর পক্ষ থেকে।
 
 | | |
 |--|--|
 | 🌐 ওয়েবসাইট | [royaltechbd.com](https://royaltechbd.com/) |
-| 💡 উদ্যোগ | RoyalTechBD |
+| 💡 উদ্যোগ | Royal Technologies |
 
 ---
 
 <div align="center">
-  Made with ❤️ by <a href="https://royaltechbd.com/">RoyalTechBD</a> for Bangladesh 🇧🇩
+  Made with ❤️ by <a href="https://royaltechbd.com/">Royal Technologies</a> for Bangladesh 🇧🇩
 </div>
