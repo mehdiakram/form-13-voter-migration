@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ফর্ম-১৩ | ভোটার এলাকা স্থানান্তর আবেদন</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+<!-- Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --green:#1b5e20;
+  --green2:#2e7d32;
+  --border:#b0bfb0;
+}
+body{font-family:'Noto Sans Bengali',sans-serif;background:#e8f0e8;color:#111;}
+
+/* TOP BAR */
+.topbar{
+  position:sticky;top:0;z-index:200;
+  background:var(--green);color:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;box-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+.topbar h1{font-size:.95rem;font-weight:700;}
+.topbar small{font-size:.72rem;opacity:.8;}
+.top-btns{display:flex;gap:8px;align-items:center;}
+.btn{font-family:'Noto Sans Bengali',sans-serif;font-size:.85rem;font-weight:700;
+  cursor:pointer;border-radius:5px;padding:7px 18px;border:none;transition:.2s;}
+.btn-pdf{background:#fff;color:var(--green);}
+.btn-pdf:hover{background:#c8e6c9;}
+.btn-reset{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);}
+.btn-reset:hover{background:rgba(255,255,255,.15);}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:360px 1fr;align-items:start;}
+
+/* ENTRY PANEL */
+.entry{
+  background:#fff;border-right:2px solid var(--border);
+  overflow-y:auto;padding:16px 14px;
+  height:calc(100vh - 50px);
+  position:sticky;top:50px;
+}
+.entry h2{font-size:.9rem;color:var(--green);font-weight:700;margin-bottom:14px;
+  padding-bottom:6px;border-bottom:2px solid var(--green);}
+.sec{font-size:.75rem;font-weight:700;color:#fff;background:var(--green2);
+  padding:4px 8px;border-radius:3px;margin:12px 0 8px;}
+.fg{margin-bottom:8px;}
+.fg label{display:block;font-size:.74rem;color:#555;font-weight:600;margin-bottom:2px;}
+.fg input,.fg textarea{
+  width:100%;padding:6px 9px;
+  border:1px solid var(--border);border-radius:4px;
+  font-family:'Noto Sans Bengali',sans-serif;font-size:.82rem;
+  background:#f8fdf8;color:#111;transition:.2s;}
+.fg input:focus,.fg textarea:focus{outline:none;border-color:var(--green2);background:#fff;}
+.fg textarea{resize:vertical;min-height:52px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+/* Select2 custom style */
+.select2-container{width:100%!important;}
+.select2-container .select2-selection--single{
+  height:32px!important;border:1px solid var(--border)!important;
+  border-radius:4px!important;background:#f8fdf8!important;
+}
+.select2-container .select2-selection--single .select2-selection__rendered{
+  line-height:30px!important;font-family:'Noto Sans Bengali',sans-serif;
+  font-size:.82rem!important;color:#111!important;padding-left:9px!important;
+}
+.select2-container .select2-selection--single .select2-selection__arrow{height:30px!important;}
+.select2-container--open .select2-selection--single{border-color:var(--green2)!important;background:#fff!important;}
+.select2-search--dropdown .select2-search__field{
+  font-family:'Noto Sans Bengali',sans-serif;font-size:.82rem;
+  border:1px solid var(--border);border-radius:3px;padding:4px 8px;
+}
+.select2-results__option{font-family:'Noto Sans Bengali',sans-serif;font-size:.82rem;padding:5px 10px;}
+.select2-results__option--highlighted{background:var(--green2)!important;color:#fff!important;}
+.select2-dropdown{border:1px solid var(--green2)!important;border-radius:4px!important;}
+.select2-container--disabled .select2-selection--single{background:#f0f0f0!important;opacity:.7;}
+
+/* PREVIEW PANEL */
+.preview{background:#c8d8c8;padding:20px 20px 30px;display:flex;flex-direction:column;gap:20px;}
+
+/* OFFICIAL FORM */
+.form-page{
+  background:#fff;width:740px;min-width:740px;margin:0 auto;
+  padding:30px 50px;
+  font-family:'Noto Serif Bengali','Noto Sans Bengali',serif;
+  font-size:12.5px;line-height:1.9;color:#000;
+  box-shadow:0 3px 16px rgba(0,0,0,.2);
+}
+.form-title{text-align:center;font-weight:700;font-size:15px;margin-bottom:2px;}
+.form-subtitle-sm{text-align:center;font-size:12px;margin-bottom:4px;}
+.form-subject{text-align:center;font-weight:600;font-size:13px;margin-bottom:20px;
+  border-bottom:1px solid #999;padding-bottom:10px;}
+
+.recipient{margin-bottom:18px;}
+.praapak{font-weight:700;margin-bottom:4px;}
+.rec-line{margin-left:32px;}
+
+.f-line{display:flex;align-items:baseline;gap:6px;margin-bottom:4px;}
+.f-line .num{font-weight:700;min-width:28px;}
+.dotline{
+  flex:1;border:none;border-bottom:1px solid #555;
+  font-family:'Noto Serif Bengali',serif;font-size:12.5px;
+  color:#1a3db5;font-weight:600;background:transparent;
+  min-height:20px;padding:0 4px;cursor:default;}
+.dotline.empty{color:transparent;}
+
+.sub-group{margin-left:36px;margin-bottom:4px;}
+.sub-line{display:flex;align-items:baseline;gap:6px;margin-bottom:3px;}
+.sub-line .slbl{white-space:nowrap;font-size:12px;}
+.sub-dotline{
+  flex:1;border:none;border-bottom:1px solid #555;
+  font-family:'Noto Serif Bengali',serif;font-size:12px;
+  color:#1a3db5;font-weight:600;background:transparent;
+  min-height:18px;padding:0 3px;cursor:default;}
+.sub-dotline.empty{color:transparent;}
+
+.postcode-wrap{display:flex;align-items:baseline;gap:6px;}
+.postcode-boxes{display:flex;gap:2px;}
+.postcode-boxes span{
+  display:inline-block;width:20px;height:20px;border:1px solid #555;
+  font-size:11px;text-align:center;line-height:20px;font-weight:600;color:#1a3db5;}
+
+.doc-list{margin-left:36px;line-height:2.1;margin-bottom:16px;}
+.doc-list li{list-style:none;font-size:12.5px;}
+
+.sig-right{text-align:right;margin:20px 0 30px;}
+.sig-right .sig-line{display:inline-block;border-bottom:1px solid #555;width:220px;height:18px;margin-bottom:4px;}
+.sig-label{font-size:12px;text-align:center;}
+
+.identifier{margin:10px 0 20px;}
+.id-line{display:flex;align-items:baseline;gap:6px;margin-bottom:4px;margin-left:120px;}
+.id-dotline{flex:1;border-bottom:1px solid #555;min-height:18px;
+  font-family:'Noto Serif Bengali',serif;font-size:12px;
+  color:#1a3db5;font-weight:600;padding:0 4px;cursor:default;}
+.id-dotline.empty{color:transparent;}
+
+.office-box{border:1px solid #777;padding:12px 16px;margin:10px 0;}
+.office-title{text-align:center;font-weight:700;font-size:13px;margin-bottom:10px;}
+.office-fill-line{display:flex;align-items:baseline;gap:6px;margin-bottom:6px;font-size:12.5px;line-height:1.8;}
+.office-dotline{flex:1;border-bottom:1px solid #555;min-height:18px;
+  font-size:12px;color:#1a3db5;font-weight:600;
+  font-family:'Noto Serif Bengali',serif;padding:0 4px;cursor:default;}
+.office-dotline.empty{color:transparent;}
+.office-sig{text-align:right;margin-top:20px;}
+.office-sig .sig-lbl{font-size:12px;}
+
+.dashed-div{border:none;border-top:2px dashed #555;margin:20px 0;}
+.receipt-title{text-align:center;font-weight:700;font-size:13px;margin-bottom:10px;}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#dde8dd;}
+::-webkit-scrollbar-thumb{background:#88aa88;border-radius:3px;}
+
+/* PRINT */
+@media print{
+  .topbar,.entry{display:none!important;}
+  .layout{display:block;height:auto;}
+  .preview{overflow:visible;padding:0;background:#fff;display:block;gap:0;}
+  .form-page{width:100%;min-width:unset;margin:0;padding:12mm 18mm;
+    box-shadow:none;page-break-after:always;}
+  .form-page:last-child{page-break-after:auto;}
+  @page{size:A4;margin:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>
+    <h1>🗳️ ফর্ম-১৩ | ভোটার এলাকা স্থানান্তর আবেদন – অটো ফিল</h1>
+    <small>Bangladesh Election Commission · বিধি ২৬(৭) দ্রষ্টব্য</small>
+  </div>
+  <div class="top-btns">
+    <button class="btn btn-reset" onclick="resetForm()">↺ রিসেট</button>
+    <button class="btn btn-pdf" onclick="window.print()">⬇ PDF ডাউনলোড / প্রিন্ট</button>
+  </div>
+</div>
+
+<div class="layout">
+
+<!-- ══════════ ENTRY PANEL ══════════ -->
+<div class="entry">
+  <h2>📋 তথ্য এন্ট্রি করুন</h2>
+
+  <div class="sec">প্রাপক (উপজেলা নির্বাচন অফিসার)</div>
+  <div class="fg">
+    <label>জেলা</label>
+    <select id="rec_district" class="s2-district" data-upazila="rec_upazila"><option value="">— জেলা বেছে নিন —</option></select>
+  </div>
+  <div class="fg">
+    <label>উপজেলা/থানা</label>
+    <select id="rec_upazila" class="s2-upazila"><option value="">— আগে জেলা বাছুন —</option></select>
+  </div>
+
+  <div class="sec">১. আবেদনকারীর তথ্য</div>
+  <div class="fg">
+    <label>আবেদনকারীর নাম</label>
+    <input id="applicant_name" type="text" placeholder="পুরো নাম বাংলায়" oninput="syncAll()"/>
+  </div>
+  <div class="fg">
+    <label>জাতীয় পরিচয়পত্র নম্বর (NID)</label>
+    <input id="nid" type="text" placeholder="NID নম্বর" oninput="syncAll()"/>
+  </div>
+  <div class="fg">
+    <label>জন্ম তারিখ</label>
+    <input id="dob" type="date" oninput="syncAll()"/>
+  </div>
+
+  <div class="sec">৪. বর্তমান তালিকাভুক্তি তথ্য</div>
+  <div class="fg">
+    <label>ভোটার নম্বর</label>
+    <input id="cur_voter_no" type="text" placeholder="বর্তমান ভোটার নম্বর" oninput="syncAll()"/>
+  </div>
+  <div class="row2">
+    <div class="fg">
+      <label>ভোটার এলাকার নাম</label>
+      <input id="cur_area_name" type="text" placeholder="এলাকার নাম" oninput="syncAll()"/>
+    </div>
+    <div class="fg">
+      <label>ভোটার এলাকার নম্বর</label>
+      <input id="cur_area_no" type="text" placeholder="এলাকার নম্বর" oninput="syncAll()"/>
+    </div>
+  </div>
+  <div class="fg">
+    <label>জেলা</label>
+    <select id="cur_district" class="s2-district" data-upazila="cur_upazila"><option value="">— জেলা বেছে নিন —</option></select>
+  </div>
+  <div class="fg">
+    <label>উপজেলা/থানা</label>
+    <select id="cur_upazila" class="s2-upazila"><option value="">— আগে জেলা বাছুন —</option></select>
+  </div>
+  <div class="row2">
+    <div class="fg">
+      <label>গ্রাম/রাস্তার নাম ও নম্বর</label>
+      <input id="cur_village" type="text" placeholder="গ্রাম/রাস্তা" oninput="syncAll()"/>
+    </div>
+    <div class="fg">
+      <label>বাসা/হোল্ডিং নম্বর</label>
+      <input id="cur_house" type="text" placeholder="বাসা/হোল্ডিং নম্বর" oninput="syncAll()"/>
+    </div>
+  </div>
+
+  <div class="sec">৫. যে এলাকায় স্থানান্তর করতে ইচ্ছুক</div>
+  <div class="fg">
+    <label>জেলা</label>
+    <select id="new_district" class="s2-district" data-upazila="new_upazila"><option value="">— জেলা বেছে নিন —</option></select>
+  </div>
+  <div class="fg">
+    <label>উপজেলা/থানা</label>
+    <select id="new_upazila" class="s2-upazila"><option value="">— আগে জেলা বাছুন —</option></select>
+  </div>
+  <div class="fg">
+    <label>সিটি কর্পোরেশন/পৌরসভা/ইউনিয়ন/ক্যান্টঃ বোর্ড</label>
+    <input id="new_union" type="text" placeholder="সিটি কর্পোরেশন / পৌরসভা / ইউনিয়ন" oninput="syncAll()"/>
+  </div>
+  <div class="fg">
+    <label>ওয়ার্ড নম্বর</label>
+    <input id="new_ward" type="text" placeholder="ওয়ার্ড নম্বর" oninput="syncAll()"/>
+  </div>
+  <div class="row2">
+    <div class="fg">
+      <label>ভোটার এলাকার নাম</label>
+      <input id="new_area_name" type="text" placeholder="এলাকার নাম" oninput="syncAll()"/>
+    </div>
+    <div class="fg">
+      <label>ভোটার এলাকার নম্বর</label>
+      <input id="new_area_no" type="text" placeholder="এলাকার নম্বর" oninput="syncAll()"/>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="fg">
+      <label>গ্রাম/রাস্তার নাম ও নম্বর</label>
+      <input id="new_village" type="text" placeholder="গ্রাম/রাস্তা" oninput="syncAll()"/>
+    </div>
+    <div class="fg">
+      <label>বাসা/হোল্ডিং নম্বর</label>
+      <input id="new_house" type="text" placeholder="বাসা/হোল্ডিং নম্বর" oninput="syncAll()"/>
+    </div>
+  </div>
+  <div class="fg">
+    <label>টেলিফোন/মোবাইল ফোন নম্বর</label>
+    <input id="new_phone" type="text" placeholder="০১XXXXXXXXX" oninput="syncAll()"/>
+  </div>
+  <div class="row2">
+    <div class="fg">
+      <label>ডাকঘর</label>
+      <input id="new_po" type="text" placeholder="ডাকঘরের নাম" oninput="syncAll()"/>
+    </div>
+    <div class="fg">
+      <label>পোস্ট কোড (৪ সংখ্যা)</label>
+      <input id="new_postcode" type="text" placeholder="যেমন: ১২০০" maxlength="4" oninput="syncAll()"/>
+    </div>
+  </div>
+
+  <div class="sec">৬. কতদিন যাবৎ আছেন</div>
+  <div class="fg">
+    <label>৫ নম্বরে বর্ণিত ঠিকানায় যে সময় হইতে অবস্থান করিতেছেন</label>
+    <input id="residing_since" type="text" placeholder="যেমন: ২০২০ সাল হইতে" oninput="syncAll()"/>
+  </div>
+
+  <div class="sec">৭. স্থানান্তরের কারণ</div>
+  <div class="fg">
+    <label>স্থানান্তরের কারণ</label>
+    <textarea id="reason" placeholder="স্থানান্তরের কারণ লিখুন..." oninput="syncAll()"></textarea>
+  </div>
+
+  <div class="sec">সনাক্তকারীর তথ্য</div>
+  <div class="fg"><label>নাম</label>
+    <input id="id_name" type="text" placeholder="সনাক্তকারীর নাম" oninput="syncAll()"/></div>
+  <div class="fg"><label>জাতীয় পরিচয়পত্র নম্বর</label>
+    <input id="id_nid" type="text" placeholder="NID নম্বর" oninput="syncAll()"/></div>
+  <div class="fg"><label>ঠিকানা</label>
+    <input id="id_addr" type="text" placeholder="সম্পূর্ণ ঠিকানা" oninput="syncAll()"/></div>
+
+  <div class="sec">অফিস ব্যবহার (ঐচ্ছিক)</div>
+  <div class="fg"><label>যে ভোটার এলাকা থেকে নাম কর্তন</label>
+    <input id="office_area_remove" type="text" placeholder="এলাকার নাম" oninput="syncAll()"/></div>
+  <div class="fg"><label>যে ভোটার এলাকায় নাম অন্তর্ভুক্ত</label>
+    <input id="office_area_add" type="text" placeholder="এলাকার নাম" oninput="syncAll()"/></div>
+
+  <div class="sec">প্রাপ্তিস্বীকার পত্র</div>
+  <div class="fg"><label>আবেদনকারীর নাম (জনাব/বেগম)</label>
+    <input id="receipt_name" type="text" placeholder="নাম" oninput="syncAll()"/></div>
+  <div class="fg"><label>আবেদন ফরম নম্বর</label>
+    <input id="receipt_form_no" type="text" placeholder="ফরম নম্বর" oninput="syncAll()"/></div>
+
+  <div style="height:20px;"></div>
+</div><!-- /entry -->
+
+
+<!-- ══════════ PREVIEW PANEL ══════════ -->
+<div class="preview">
+
+  <!-- PAGE 1 -->
+  <div class="form-page" id="page1">
+    <div class="form-title">ফরম-১৩</div>
+    <div class="form-subtitle-sm">[বিধি ২৬(৭) দ্রষ্টব্য]</div>
+    <div class="form-subject">এক ভোটার এলাকা হইতে অন্য ভোটার এলাকায় ভোটার স্থানান্তরের আবেদন</div>
+
+    <div class="recipient">
+      <div class="praapak">প্রাপক ঃ</div>
+      <div class="rec-line">উপজেলা/থানা নির্বাচন অফিসার</div>
+      <div class="rec-line" style="display:flex;gap:6px;align-items:baseline;">
+        উপজেলা/থানা<span class="dotline" id="p_rec_upazila" style="min-width:180px;">&nbsp;</span>
+      </div>
+      <div class="rec-line" style="display:flex;gap:6px;align-items:baseline;">
+        জেলা<span class="dotline" id="p_rec_district" style="min-width:200px;">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="f-line">
+      <span class="num">১।</span>
+      <span>আবেদনকারীর নাম ঃ</span>
+      <span class="dotline" id="p_applicant_name">&nbsp;</span>
+    </div>
+    <div class="f-line">
+      <span class="num">২।</span>
+      <span>জাতীয় পরিচয়পত্র নম্বর (NID) ঃ</span>
+      <span class="dotline" id="p_nid">&nbsp;</span>
+    </div>
+    <div style="margin-left:36px;font-size:11.5px;color:#333;margin-bottom:4px;">
+      (জাতীয় পরিচয়পত্রের ছায়ালিপি সংযুক্ত করিতে হইবে)
+    </div>
+    <div class="f-line">
+      <span class="num">৩।</span>
+      <span>জন্ম তারিখ ঃ</span>
+      <span class="dotline" id="p_dob">&nbsp;</span>
+    </div>
+
+    <div class="f-line" style="margin-bottom:2px;">
+      <span class="num">৪।</span>
+      <span>বর্তমান তালিকাভুক্তি সংক্রান্ত তথ্যাদি-</span>
+    </div>
+    <div class="sub-group">
+      <div class="sub-line">
+        <span class="slbl">ভোটার নম্বর ঃ</span>
+        <span class="sub-dotline" id="p_cur_voter_no" style="max-width:220px;">&nbsp;</span>
+      </div>
+      <div class="sub-line">
+        <span class="slbl">ভোটার এলাকার নামঃ</span>
+        <span class="sub-dotline" id="p_cur_area_name" style="max-width:150px;">&nbsp;</span>
+        <span class="slbl">ভোটার এলাকার নম্বর ঃ</span>
+        <span class="sub-dotline" id="p_cur_area_no" style="max-width:100px;">&nbsp;</span>
+      </div>
+      <div class="sub-line">
+        <span class="slbl">উপজেলা/থানা ঃ</span>
+        <span class="sub-dotline" id="p_cur_upazila" style="max-width:160px;">&nbsp;</span>
+        <span class="slbl">জেলা ঃ</span>
+        <span class="sub-dotline" id="p_cur_district" style="max-width:140px;">&nbsp;</span>
+      </div>
+      <div class="sub-line">
+        <span class="slbl">গ্রাম/রাস্তার নাম ও নম্বর ঃ</span>
+        <span class="sub-dotline" id="p_cur_village" style="max-width:140px;">&nbsp;</span>
+        <span class="slbl">বাসা/হোল্ডিং নম্বর ঃ</span>
+        <span class="sub-dotline" id="p_cur_house" style="max-width:100px;">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="f-line" style="margin-bottom:2px;">
+      <span class="num">৫।</span>
+      <span>যে এলাকায় স্থানান্তর হইতে ইচ্ছুক-</span>
+    </div>
+    <div class="sub-group">
+      <div class="sub-line">
+        <span class="slbl">জেলা ঃ</span>
+        <span class="sub-dotline" id="p_new_district" style="max-width:170px;">&nbsp;</span>
+        <span class="slbl">উপজেলা/থানা ঃ</span>
+        <span class="sub-dotline" id="p_new_upazila" style="max-width:150px;">&nbsp;</span>
+      </div>
+      <div class="sub-line">
+        <span class="slbl">সিটি কর্পোরেশন/পৌরসভা/ইউনিয়ন/ক্যান্টঃ বোর্ড ঃ</span>
+        <span class="sub-dotline" id="p_new_union" style="max-width:100px;">&nbsp;</span>
+        <span class="slbl">ওয়ার্ড নম্বর ঃ</span>
+        <span class="sub-dotline" id="p_new_ward" style="max-width:55px;">&nbsp;</span>
+      </div>
+      <div class="sub-line">
+        <span class="slbl">ভোটার এলাকার নাম ঃ</span>
+        <span class="sub-dotline" id="p_new_area_name" style="max-width:150px;">&nbsp;</span>
+        <span class="slbl">ভোটার এলাকার নম্বর ঃ</span>
+        <span class="sub-dotline" id="p_new_area_no" style="max-width:80px;">&nbsp;</span>
+      </div>
+      <div class="sub-line">
+        <span class="slbl">গ্রাম/রাস্তার নাম ও নম্বর ঃ</span>
+        <span class="sub-dotline" id="p_new_village" style="max-width:140px;">&nbsp;</span>
+        <span class="slbl">বাসা/হোল্ডিং নম্বর ঃ</span>
+        <span class="sub-dotline" id="p_new_house" style="max-width:90px;">&nbsp;</span>
+      </div>
+      <div class="sub-line">
+        <span class="slbl">টেলিফোন/মোবাইল ফোন নম্বর ঃ</span>
+        <span class="sub-dotline" id="p_new_phone">&nbsp;</span>
+      </div>
+      <div class="sub-line">
+        <span class="slbl">ডাকঘর ঃ</span>
+        <span class="sub-dotline" id="p_new_po" style="max-width:180px;">&nbsp;</span>
+        <span class="postcode-wrap">
+          <span class="slbl" style="white-space:nowrap;">পোস্ট কোড ঃ</span>
+          <span class="postcode-boxes">
+            <span id="pc1">&nbsp;</span><span id="pc2">&nbsp;</span>
+            <span id="pc3">&nbsp;</span><span id="pc4">&nbsp;</span>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="f-line">
+      <span class="num">৬।</span>
+      <span>৫ নম্বর ক্রমিকে বর্ণিত ঠিকানায় যে সময় হইতে অবস্থান করিতেছেন ঃ</span>
+      <span class="dotline" id="p_residing_since" style="min-width:80px;">&nbsp;</span>
+    </div>
+    <div class="f-line">
+      <span class="num">৭।</span>
+      <span>স্থানান্তরের কারণঃ</span>
+      <span class="dotline" id="p_reason">&nbsp;</span>
+    </div>
+  </div><!-- /page1 -->
+
+
+  <!-- PAGE 2 -->
+  <div class="form-page" id="page2">
+    <div class="f-line" style="margin-bottom:6px;">
+      <span class="num">৮।</span>
+      <span>৫ নম্বর ক্রমিকে বর্ণিত ঠিকানায় অবস্থানের সমর্থনে নিম্নের দলিলাদি সংযুক্ত করিতে হইবে ঃ</span>
+    </div>
+    <div class="doc-list">
+      <li>(ক) প্রথম শ্রেণীর কর্মকর্তা/ ক্যান্টনমেন্ট বোর্ডের এক্সিকিউটিভ অফিসার/ সিটি কর্পোরেশন/পৌরসভার মেয়র /ওয়ার্ড</li>
+      <li style="margin-left:24px;">কাউন্সিলর/ইউনিয়ন পরিষদ চেয়ারম্যান কর্তৃক প্রদত্ত প্রত্যয়ন পত্র।</li>
+      <li>(খ) ইউটিলিটি বিলের অনুলিপি (যদি থাকে)</li>
+      <li>(গ) বাড়ী ভাড়া রশিদ/চৌকিদারী কর রশিদ/পৌরকর রশিদ/অন্যান্য</li>
+    </div>
+
+    <div class="sig-right">
+      <div class="sig-line"></div>
+      <div class="sig-label">আবেদনকারীর স্বাক্ষর বা টিপসহি</div>
+    </div>
+
+    <div class="identifier">
+      <div style="text-align:center;font-weight:600;margin-bottom:8px;">
+        আবেদনকারীকে সনাক্তকারীর স্বাক্ষর ঃ
+        <span style="display:inline-block;border-bottom:1px solid #555;min-width:220px;height:18px;"></span>
+      </div>
+      <div class="id-line">
+        <span style="white-space:nowrap;">নাম ঃ</span>
+        <span class="id-dotline" id="p_id_name">&nbsp;</span>
+      </div>
+      <div class="id-line">
+        <span style="white-space:nowrap;">জাতীয় পরিচয়পত্র নম্বর ঃ</span>
+        <span class="id-dotline" id="p_id_nid">&nbsp;</span>
+      </div>
+      <div class="id-line">
+        <span style="white-space:nowrap;">ঠিকানা ঃ</span>
+        <span class="id-dotline" id="p_id_addr">&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="office-box">
+      <div class="office-title">[কেবলমাত্র অফিসে ব্যবহারের জন্য]</div>
+      <div class="office-fill-line">
+        দাখিলকৃত দলিলাদি পরীক্ষান্তে
+        <span class="office-dotline" id="p_office_area_remove" style="max-width:180px;">&nbsp;</span>
+        ভোটার এলাকার জন্য প্রণীত ভোটার তালিকা হইতে নাম
+      </div>
+      <div class="office-fill-line">
+        কর্তন এবং
+        <span class="office-dotline" id="p_office_area_add" style="max-width:220px;">&nbsp;</span>
+        ভোটার এলাকায় নাম অন্তর্ভুক্ত করা হইল।
+      </div>
+      <div class="office-sig">
+        <div style="display:inline-block;border-bottom:1px solid #555;width:200px;height:18px;margin-bottom:4px;"></div>
+        <div class="office-sig sig-lbl">উপজেলা/থানা নির্বাচন কর্মকর্তা</div>
+        <div style="height:10px;"></div>
+        <div style="display:inline-block;border-bottom:1px solid #555;width:120px;height:18px;margin-bottom:4px;"></div>
+        <div class="sig-lbl">তারিখ</div>
+      </div>
+    </div>
+
+    <hr class="dashed-div"/>
+
+    <div>
+      <div class="receipt-title">প্রাপ্তিস্বীকার পত্র</div>
+      <div class="office-fill-line">
+        জনাব/বেগম<span class="office-dotline" id="p_receipt_name">&nbsp;</span>এর আবেদন ফরম গৃহীত হইল।
+      </div>
+      <div class="office-fill-line">
+        আবেদন ফরম নম্বর <span class="office-dotline" id="p_receipt_form_no" style="max-width:200px;">&nbsp;</span>
+      </div>
+      <div class="office-sig" style="margin-top:30px;">
+        <div style="display:inline-block;border-bottom:1px solid #555;width:180px;height:18px;margin-bottom:4px;"></div>
+        <div class="sig-lbl">গ্রহণকারীর স্বাক্ষর</div>
+      </div>
+    </div>
+  </div><!-- /page2 -->
+
+</div><!-- /preview -->
+</div><!-- /layout -->
+
+<script>
+/* ══════════════════════════════════════
+   বাংলাদেশের সকল জেলা ও উপজেলা
+══════════════════════════════════════ */
+const BD_DATA = {
+  "ঢাকা": ["আদাবর","আজিমপুর","বাড্ডা","বংশাল","চকবাজার","দক্ষিণখান","দারুস সালাম","ডেমরা","ধামরাই","ধানমন্ডি","দোহার","গেন্ডারিয়া","গুলশান","হাজারীবাগ","কামরাঙ্গিরচর","কেরানীগঞ্জ","খিলগাঁও","খিলক্ষেত","কোতোয়ালি","লালবাগ","মিরপুর","মোহাম্মদপুর","মতিঝিল","নবাবগঞ্জ","নিউমার্কেট","পল্লবী","পল্টন","রমনা","সাভার","শ্যামপুর","শাহজাহানপুর","শাহবাগ","সূত্রাপুর","তেজগাঁও","তেজগাঁও শিল্প এলাকা","উত্তরখান","ওয়ারী"],
+  "গাজীপুর": ["গাজীপুর সদর","কালিয়াকৈর","কালীগঞ্জ","কাপাসিয়া","শ্রীপুর","টঙ্গী পূর্ব","টঙ্গী পশ্চিম"],
+  "নারায়ণগঞ্জ": ["আড়াইহাজার","বন্দর","নারায়ণগঞ্জ সদর","রূপগঞ্জ","সোনারগাঁ"],
+  "মুন্সীগঞ্জ": ["গজারিয়া","লৌহজং","মুন্সীগঞ্জ সদর","শ্রীনগর","সিরাজদিখান","টঙ্গিবাড়ী"],
+  "মানিকগঞ্জ": ["দৌলতপুর","ঘিওর","হরিরামপুর","মানিকগঞ্জ সদর","সাটুরিয়া","শিবালয়","সিংগাইর"],
+  "কিশোরগঞ্জ": ["অষ্টগ্রাম","বাজিতপুর","ভৈরব","হোসেনপুর","ইটনা","কটিয়াদি","করিমগঞ্জ","কিশোরগঞ্জ সদর","কুলিয়ারচর","মিঠামইন","নিকলী","পাকুন্দিয়া","তাড়াইল"],
+  "ময়মনসিংহ": ["ভালুকা","ধোবাউড়া","ফুলবাড়িয়া","ফুলপুর","গফরগাঁও","গৌরীপুর","হালুয়াঘাট","ঈশ্বরগঞ্জ","ময়মনসিংহ সদর","মুক্তাগাছা","নান্দাইল","তারাকান্দা","ত্রিশাল"],
+  "টাঙ্গাইল": ["বাসাইল","ভূঞাপুর","দেলদুয়ার","ধনবাড়ী","ঘাটাইল","গোপালপুর","কালিহাতী","মধুপুর","মির্জাপুর","নাগরপুর","সখীপুর","টাঙ্গাইল সদর"],
+  "নেত্রকোণা": ["আটপাড়া","বারহাট্টা","দুর্গাপুর","খালিয়াজুরী","কেন্দুয়া","কলমাকান্দা","মদন","মোহনগঞ্জ","নেত্রকোণা সদর","পূর্বধলা"],
+  "ফরিদপুর": ["আলফাডাঙ্গা","ভাঙ্গা","বোয়ালমারী","চরভদ্রাসন","ফরিদপুর সদর","মধুখালী","নগরকান্দা","সদরপুর","সালথা"],
+  "গোপালগঞ্জ": ["গোপালগঞ্জ সদর","কাশিয়ানী","কোটালীপাড়া","মুকসুদপুর","টুংগীপাড়া"],
+  "মাদারীপুর": ["কালকিনি","মাদারীপুর সদর","রাজৈর","শিবচর","ডাসার"],
+  "রাজবাড়ী": ["বালিয়াকান্দি","গোয়ালন্দ","কালুখালী","পাংশা","রাজবাড়ী সদর"],
+  "শরীয়তপুর": ["ডামুড্যা","গোসাইরহাট","জাজিরা","নড়িয়া","শরীয়তপুর সদর","ভেদরগঞ্জ","জাজিরা"],
+  "জামালপুর": ["বকশীগঞ্জ","দেওয়ানগঞ্জ","ইসলামপুর","জামালপুর সদর","মাদারগঞ্জ","মেলান্দহ","সরিষাবাড়ী"],
+  "শেরপুর": ["ঝিনাইগাতী","নকলা","নালিতাবাড়ী","শেরপুর সদর","শ্রীবরদী"],
+  "চট্টগ্রাম": ["আনোয়ারা","বাঁশখালী","বোয়ালখালী","চন্দনাইশ","ডবলমুরিং","ফটিকছড়ি","হাটহাজারী","কর্ণফুলী","কোতোয়ালি","লোহাগাড়া","মীরসরাই","পটিয়া","রাঙ্গুনিয়া","রাউজান","সন্দ্বীপ","সাতকানিয়া","সীতাকুণ্ড","চকরিয়া (চট্টগ্রাম)"],
+  "কক্সবাজার": ["চকরিয়া","কক্সবাজার সদর","কুতুবদিয়া","মহেশখালী","পেকুয়া","রামু","টেকনাফ","উখিয়া"],
+  "ব্রাহ্মণবাড়িয়া": ["আখাউড়া","আশুগঞ্জ","বাঞ্ছারামপুর","ব্রাহ্মণবাড়িয়া সদর","কসবা","নবীনগর","নাসিরনগর","সরাইল","বিজয়নগর"],
+  "কুমিল্লা": ["বরুড়া","ব্রাহ্মণপাড়া","বুড়িচং","চান্দিনা","চৌদ্দগ্রাম","দাউদকান্দি","দেবিদ্বার","হোমনা","কুমিল্লা আদর্শ সদর","কুমিল্লা সদর দক্ষিণ","লাকসাম","লালমাই","মেঘনা","মুরাদনগর","নাঙ্গলকোট","তিতাস"],
+  "চাঁদপুর": ["চাঁদপুর সদর","ফরিদগঞ্জ","হাজীগঞ্জ","হাইমচর","কচুয়া","মতলব উত্তর","মতলব দক্ষিণ","শাহরাস্তি"],
+  "লক্ষ্মীপুর": ["কমলনগর","লক্ষ্মীপুর সদর","রামগঞ্জ","রামগতি","রায়পুর"],
+  "নোয়াখালী": ["বেগমগঞ্জ","চাটখিল","কোম্পানীগঞ্জ","হাতিয়া","কবিরহাট","নোয়াখালী সদর","সেনবাগ","সোনাইমুড়ী","সুবর্ণচর"],
+  "ফেনী": ["ছাগলনাইয়া","দাগনভূঁইয়া","ফেনী সদর","ফুলগাজী","পরশুরাম","সোনাগাজী"],
+  "খাগড়াছড়ি": ["দিঘিনালা","গুইমারা","খাগড়াছড়ি সদর","লক্ষ্মীছড়ি","মাটিরাঙ্গা","মানিকছড়ি","মহালছড়ি","পানছড়ি","রামগড়"],
+  "রাঙ্গামাটি": ["বাঘাইছড়ি","বরকল","বিলাইছড়ি","জুরাছড়ি","কাউখালী","কাপ্তাই","লংগদু","নানিয়ারচর","রাজস্থলী","রাঙ্গামাটি সদর"],
+  "বান্দরবান": ["আলীকদম","বান্দরবান সদর","লামা","নাইক্ষ্যংছড়ি","রোয়াংছড়ি","রুমা","থানচি"],
+  "রাজশাহী": ["বাগমারা","বোয়ালিয়া","চারঘাট","দুর্গাপুর","গোদাগাড়ী","মোহনপুর","পবা","পুঠিয়া","তানোর"],
+  "নাটোর": ["বড়াইগ্রাম","বাগাতিপাড়া","গুরুদাসপুর","লালপুর","নাটোর সদর","সিংড়া"],
+  "নওগাঁ": ["আত্রাই","বদলগাছি","ধামইরহাট","মান্দা","মহাদেবপুর","নওগাঁ সদর","নিয়ামতপুর","পতনীতলা","পোরশা","রানীনগর","সাপাহার"],
+  "চাঁপাইনবাবগঞ্জ": ["ভোলাহাট","গোমস্তাপুর","নাচোল","চাঁপাইনবাবগঞ্জ সদর","শিবগঞ্জ"],
+  "বগুড়া": ["আদমদীঘি","বগুড়া সদর","ধুনট","দুপচাঁচিয়া","গাবতলী","কাহালু","নন্দীগ্রাম","শাজাহানপুর","শেরপুর (বগুড়া)","শিবগঞ্জ","সারিয়াকান্দি","সোনাতলা"],
+  "জয়পুরহাট": ["আক্কেলপুর","কালাই","ক্ষেতলাল","জয়পুরহাট সদর","পাঁচবিবি"],
+  "পাবনা": ["আটঘরিয়া","বেড়া","ভাঙ্গুড়া","চাটমোহর","ঈশ্বরদী","ফরিদপুর (পাবনা)","পাবনা সদর","সাঁথিয়া","সুজানগর"],
+  "সিরাজগঞ্জ": ["বেলকুচি","চৌহালি","কামারখন্দ","কাজীপুর","রায়গঞ্জ","শাহজাদপুর","সিরাজগঞ্জ সদর","তাড়াশ","উল্লাপাড়া"],
+  "খুলনা": ["বটিয়াঘাটা","দাকোপ","দিঘলিয়া","ডুমুরিয়া","ফুলতলা","কয়রা","খুলনা সদর","পাইকগাছা","রূপসা","তেরখাদা"],
+  "বাগেরহাট": ["বাগেরহাট সদর","চিতলমারী","ফকিরহাট","কচুয়া","মংলা","মোরেলগঞ্জ","মোল্লাহাট","রামপাল","শরণখোলা"],
+  "সাতক্ষীরা": ["আশাশুনি","দেবহাটা","কালীগঞ্জ","কলারোয়া","সাতক্ষীরা সদর","শ্যামনগর","তালা"],
+  "যশোর": ["অভয়নগর","বাঘারপাড়া","চৌগাছা","ঝিকরগাছা","কেশবপুর","মনিরামপুর","শার্শা","যশোর সদর"],
+  "নড়াইল": ["কালিয়া","লোহাগড়া","নড়াইল সদর"],
+  "ঝিনাইদহ": ["হরিণাকুণ্ডু","ঝিনাইদহ সদর","কালীগঞ্জ","কোটচাঁদপুর","মহেশপুর","শৈলকুপা"],
+  "মাগুরা": ["মাগুরা সদর","মহম্মদপুর","শালিখা","শ্রীপুর (মাগুরা)"],
+  "কুষ্টিয়া": ["ভেড়ামারা","দৌলতপুর","কুমারখালী","কুষ্টিয়া সদর","খোকসা","মিরপুর (কুষ্টিয়া)"],
+  "মেহেরপুর": ["গাংনী","মেহেরপুর সদর","মুজিবনগর"],
+  "চুয়াডাঙ্গা": ["আলমডাঙ্গা","চুয়াডাঙ্গা সদর","দামুড়হুদা","জীবননগর"],
+  "বরিশাল": ["আগৈলঝাড়া","বাকেরগঞ্জ","বানারীপাড়া","বাবুগঞ্জ","বরিশাল সদর","গৌরনদী","হিজলা","মেহেন্দিগঞ্জ","মুলাদী","উজিরপুর"],
+  "ভোলা": ["বোরহানউদ্দিন","চরফ্যাশন","দৌলতখান","লালমোহন","মনপুরা","তজুমুদ্দিন","ভোলা সদর"],
+  "পটুয়াখালী": ["বাউফল","দশমিনা","গলাচিপা","কলাপাড়া","মির্জাগঞ্জ","পটুয়াখালী সদর","রাঙ্গাবালী"],
+  "পিরোজপুর": ["ভান্ডারিয়া","কাউখালী","মঠবাড়িয়া","নাজিরপুর","নেছারাবাদ","পিরোজপুর সদর","ইন্দুরকানী"],
+  "বরগুনা": ["আমতলী","বামনা","বরগুনা সদর","বেতাগী","পাথরঘাটা","তালতলী"],
+  "ঝালকাঠি": ["ঝালকাঠি সদর","কাঁঠালিয়া","নলছিটি","রাজাপুর"],
+  "সিলেট": ["বালাগঞ্জ","বিয়ানীবাজার","বিশ্বনাথ","কোম্পানীগঞ্জ (সিলেট)","দক্ষিণ সুরমা","ফেঞ্চুগঞ্জ","গোলাপগঞ্জ","গোয়াইনঘাট","জকিগঞ্জ","কানাইঘাট","ওসমানীনগর","সিলেট সদর","জৈন্তাপুর"],
+  "মৌলভীবাজার": ["বড়লেখা","জুড়ী","কমলগঞ্জ","কুলাউড়া","মৌলভীবাজার সদর","রাজনগর","শ্রীমঙ্গল"],
+  "হবিগঞ্জ": ["আজমিরীগঞ্জ","বাহুবল","বানিয়াচং","চুনারুঘাট","হবিগঞ্জ সদর","লাখাই","মাধবপুর","নবীগঞ্জ"],
+  "সুনামগঞ্জ": ["বিশ্বম্ভরপুর","ছাতক","দক্ষিণ সুনামগঞ্জ","দিরাই","ধর্মপাশা","দোয়ারাবাজার","জগন্নাথপুর","জামালগঞ্জ","শাল্লা","সুনামগঞ্জ সদর","তাহিরপুর"],
+  "রংপুর": ["বদরগঞ্জ","গঙ্গাচড়া","কাউনিয়া","মিঠাপুকুর","পীরগঞ্জ","পীরগাছা","রংপুর সদর","তারাগঞ্জ"],
+  "দিনাজপুর": ["বিরামপুর","বিরগঞ্জ","বীরগঞ্জ","বোচাগঞ্জ","চিরিরবন্দর","দিনাজপুর সদর","ফুলবাড়ী","ঘোড়াঘাট","হাকিমপুর","কাহারোল","খানসামা","নবাবগঞ্জ (দিনাজপুর)","পার্বতীপুর"],
+  "নীলফামারী": ["ডিমলা","ডোমার","জলঢাকা","কিশোরগঞ্জ (নীলফামারী)","নীলফামারী সদর","সৈয়দপুর"],
+  "ঠাকুরগাঁও": ["বালিয়াডাঙ্গী","হরিপুর","পীরগঞ্জ (ঠাকুরগাঁও)","রানীশংকৈল","ঠাকুরগাঁও সদর"],
+  "পঞ্চগড়": ["আটোয়ারী","বোদা","দেবীগঞ্জ","পঞ্চগড় সদর","তেতুলিয়া"],
+  "গাইবান্ধা": ["ফুলছড়ি","গাইবান্ধা সদর","গোবিন্দগঞ্জ","পলাশবাড়ী","সাদুল্লাপুর","সাঘাটা","সুন্দরগঞ্জ"],
+  "লালমনিরহাট": ["আদিতমারী","হাতীবান্ধা","কালীগঞ্জ (লালমনিরহাট)","লালমনিরহাট সদর","পাটগ্রাম"],
+  "কুড়িগ্রাম": ["ভুরুঙ্গামারী","চর রাজিবপুর","চিলমারী","ফুলবাড়ী (কুড়িগ্রাম)","কুড়িগ্রাম সদর","নাগেশ্বরী","রাজারহাট","রৌমারী","উলিপুর"]
+};
+
+/* সকল জেলার তালিকা (বর্ণানুক্রমে) */
+const ALL_DISTRICTS = Object.keys(BD_DATA).sort();
+
+/* ─── Select2 Init ─── */
+function buildDistrictOptions(){
+  let html = '<option value="">— জেলা বেছে নিন —</option>';
+  ALL_DISTRICTS.forEach(d => { html += `<option value="${d}">${d}</option>`; });
+  return html;
+}
+
+function buildUpazilaOptions(district){
+  if(!district) return '<option value="">— আগে জেলা বাছুন —</option>';
+  const list = BD_DATA[district] || [];
+  let html = '<option value="">— উপজেলা বেছে নিন —</option>';
+  list.forEach(u => { html += `<option value="${u}">${u}</option>`; });
+  return html;
+}
+
+$(function(){
+  // Inject district options
+  document.querySelectorAll('.s2-district').forEach(sel => {
+    sel.innerHTML = buildDistrictOptions();
+  });
+
+  // Init Select2 on districts
+  $('.s2-district').select2({ placeholder:'— জেলা বেছে নিন —', allowClear:true, width:'100%' });
+
+  // Init Select2 on upazilas
+  $('.s2-upazila').select2({ placeholder:'— আগে জেলা বাছুন —', allowClear:true, width:'100%',
+    language:{ noResults: () => 'কোনো উপজেলা পাওয়া যায়নি' } });
+
+  // District → Upazila dependency
+  $('.s2-district').on('change', function(){
+    const dist = $(this).val();
+    const upazilaId = $(this).data('upazila');
+    const $up = $('#' + upazilaId);
+    $up.html(buildUpazilaOptions(dist));
+    $up.val('').trigger('change.select2');
+    syncAll();
+  });
+
+  // Upazila change → sync
+  $('.s2-upazila').on('change', function(){ syncAll(); });
+});
+
+/* ─── Field Map ─── */
+const TEXT_MAP = {
+  applicant_name:'p_applicant_name', nid:'p_nid', dob:'p_dob',
+  cur_voter_no:'p_cur_voter_no', cur_area_name:'p_cur_area_name', cur_area_no:'p_cur_area_no',
+  cur_village:'p_cur_village', cur_house:'p_cur_house',
+  new_union:'p_new_union', new_ward:'p_new_ward',
+  new_area_name:'p_new_area_name', new_area_no:'p_new_area_no',
+  new_village:'p_new_village', new_house:'p_new_house',
+  new_phone:'p_new_phone', new_po:'p_new_po',
+  residing_since:'p_residing_since', reason:'p_reason',
+  id_name:'p_id_name', id_nid:'p_id_nid', id_addr:'p_id_addr',
+  office_area_remove:'p_office_area_remove', office_area_add:'p_office_area_add',
+  receipt_name:'p_receipt_name', receipt_form_no:'p_receipt_form_no'
+};
+
+const SELECT_MAP = {
+  rec_district:'p_rec_district', rec_upazila:'p_rec_upazila',
+  cur_district:'p_cur_district', cur_upazila:'p_cur_upazila',
+  new_district:'p_new_district', new_upazila:'p_new_upazila'
+};
+
+const BN_MONTHS = ['','জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+
+function fmtDate(v){
+  if(!v) return '';
+  const [y,m,d] = v.split('-');
+  return `${parseInt(d)} ${BN_MONTHS[parseInt(m)]}, ${y}`;
+}
+
+function setVal(el, val){
+  if(!el) return;
+  if(val){ el.textContent = val; el.style.color='#1a3db5'; el.classList.remove('empty'); }
+  else { el.innerHTML='&nbsp;'; el.style.color='transparent'; el.classList.add('empty'); }
+}
+
+function syncAll(){
+  // Text/textarea inputs
+  for(const [inId, pvId] of Object.entries(TEXT_MAP)){
+    const inp = document.getElementById(inId);
+    const pv  = document.getElementById(pvId);
+    if(!inp || !pv) continue;
+    let v = inp.value.trim();
+    if(inp.type === 'date' && v) v = fmtDate(v);
+    setVal(pv, v);
+  }
+  // Select2 dropdowns
+  for(const [inId, pvId] of Object.entries(SELECT_MAP)){
+    const pv = document.getElementById(pvId);
+    const v  = document.getElementById(inId)?.value || '';
+    setVal(pv, v);
+  }
+  // Post code boxes
+  const pc = (document.getElementById('new_postcode').value + '    ').slice(0,4).split('');
+  ['pc1','pc2','pc3','pc4'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    const ch = pc[i].trim();
+    if(el){ el.textContent = ch || '\u00a0'; el.style.color = ch ? '#1a3db5' : 'transparent'; }
+  });
+}
+
+function resetForm(){
+  if(!confirm('সমস্ত তথ্য মুছে ফেলতে চান?')) return;
+  document.querySelectorAll('.entry input,.entry textarea').forEach(e => e.value = '');
+  // Reset all Select2
+  $('.s2-district').val('').trigger('change');
+  syncAll();
+}
+
+window.addEventListener('DOMContentLoaded', syncAll);
+</script>
+</body>
+</html>
